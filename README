@@ -1,5 +1,6 @@
 turtlebot-config
-1234567890123456789012345678901234567890123456789012345678901234567890
+--------------------------------
+
 This packge provides tools for autoconfiguring launch files and udev
 rules for TurtleBot robots running ROS.
 
