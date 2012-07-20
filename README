@@ -1,0 +1,23 @@
+turtlebot-config
+1234567890123456789012345678901234567890123456789012345678901234567890
+This packge provides tools for autoconfiguring launch files and udev
+rules for TurtleBot robots running ROS.
+
+The script creates a udev rule to set the permissions and the name of
+FTDI serial devices based on their serial number. This ensures that
+the devices always come up on the same port independent of the order
+in which the devices are connected.
+
+This file is installed to /etc/udev/rules.d/70-turtlebot-auto.rules
+
+The script also checks to see if /etc/ros is a symlink, if so it
+removes the symlink and creates a new /etc/ros directory with files
+that are automatically generated. This allows the launch files to
+support various hardware with minimal user intervention. This process
+helps to configure the TurtleBot Arm if it is attached and deal with
+battery support for the Lenobo X130e.
+
+This package is meant to be built as a debian .deb but it can be
+manually installed by running the following.
+
+$ python setup.py install

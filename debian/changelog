@@ -1,0 +1,5 @@
+turtlebot-config (0.0.1) UNRELEASED; urgency=low
+
+  * Splitting git repo to enable git-dch and git-buildpackage
+
+ -- I Heart Engineering <code@iheartengineering.com>  Fri, 20 Jul 2012 01:01:00 -0400
