@@ -1,3 +1,11 @@
+turtlebot-config (0.0.1ubuntu1~1.gbpb4143b) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @b4143b6d9568cd1ee8ade9378fe7652a03f95d1f **
+
+  * fixed README
+
+ -- I Heart Engineering <code@iheartengineering.com>  Fri, 20 Jul 2012 02:37:33 -0400
+
 turtlebot-config (0.0.1) UNRELEASED; urgency=low
 
   * Splitting git repo to enable git-dch and git-buildpackage
