@@ -1,7 +1,13 @@
 from distutils.core import setup
+import os
+import subprocess
+
+if os.path.exists("debian/changelog"):
+    output=subprocess.check_output("parsechangelog | grep Version", shell=True)
+    version = output.split(":")[1].strip()
 
 setup(name = "turtlebot-config",
-    version = "0.0.2",
+    version = version,
     description = "TurtleBot Autoconfiguration Tool",
     author = "I Heart Engineering",
     author_email = "code@iheartengineering.com",
