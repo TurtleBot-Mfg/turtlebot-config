@@ -1,3 +1,17 @@
+turtlebot-config (0.0.2ubuntu1~1.gbpd3bce5) precise; urgency=low
+
+  ** SNAPSHOT build @d3bce5edaccd6623acbb72bfd732e9c449ce73df **
+
+  *
+
+ -- I Heart Engineering <code@iheartengineering.com>  Sun, 22 Jul 2012 01:10:50 -0400
+
+turtlebot-config (0.0.2) UNRELEASED; urgency=low
+
+  * added libparse-debianchangelog-perl to build deps for setup.py to auto version (Find a better way?)
+
+ -- I Heart Engineering <code@iheartengineering.com>  Sun, 22 Jul 2012 01:10:50 -0400
+
 turtlebot-config (0.0.2) precise; urgency=low
 
   * autogenerate version info for setup.py based on changelog
