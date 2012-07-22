@@ -1,10 +1,12 @@
-turtlebot-config (0.0.2ubuntu1~1.gbpd3bce5) precise; urgency=low
+turtlebot-config (0.0.2~1.gbp1a7672) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @d3bce5edaccd6623acbb72bfd732e9c449ce73df **
+  ** SNAPSHOT build @1a76722b2bad3a7f096b6667cf5c1cabfc8111af **
 
-  *
+  * added libparse-debianchangelog-perl to build deps for setup.py to auto version (Find a better way?)
+  * changes
+  * Refactoring code to handle text mode so we can autoconf on install
 
- -- I Heart Engineering <code@iheartengineering.com>  Sun, 22 Jul 2012 01:10:50 -0400
+ -- I Heart Engineering <code@iheartengineering.com>  Sun, 22 Jul 2012 03:45:58 -0400
 
 turtlebot-config (0.0.2) UNRELEASED; urgency=low
 
