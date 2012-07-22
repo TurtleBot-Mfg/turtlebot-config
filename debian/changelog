@@ -1,8 +1,8 @@
-turtlebot-config (0.0.2) UNRELEASED; urgency=low
+turtlebot-config (0.0.2) precise; urgency=low
 
   * autogenerate version info for setup.py based on changelog
 
- -- I Heart Engineering <code@iheartengineering.com>  Fri, 20 Jul 2012 22:58:56 -0400
+ -- I Heart Engineering <code@iheartengineering.com>  Sat, 21 Jul 2012 22:53:57 -0400
 
 turtlebot-config (0.0.1ubuntu1~1.gbpb4143b) UNRELEASED; urgency=low
 
