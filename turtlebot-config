@@ -40,6 +40,7 @@ import usb.core
 import usb.util
 import getpass
 import os
+import sys
 import shutil
 
 #################
@@ -165,70 +166,78 @@ def dialog_plug_arm():
 
 
 #################
+def gui(argv):
+    if (not is_root()):
+        dialog_run_as_root()
+        exit()
 
-if (not is_root()):
-    dialog_run_as_root()
-    exit()
+    if (not os.path.isdir("/etc/ros") or os.path.islink("/etc/ros")):
+        dialog_etcros_unlink()
+        output_dir="/etc/ros"
+        output_mode="etc"
+        if (os.path.isdir(output_dir)):
+            os.unlink(output_dir)
+        os.makedirs(output_dir)
+    else:
+        dialog_etcros_tmp()
+        output_dir="/tmp/turtlebot-config"
+        output_mode="tmp"
+        if (os.path.isdir(output_dir)):
+            shutil.rmtree(output_dir)
+        os.makedirs(output_dir)
 
-if (not os.path.isdir("/etc/ros") or os.path.islink("/etc/ros")):
-    dialog_etcros_unlink()
-    output_dir="/etc/ros"
-    output_mode="etc"
-    if (os.path.isdir(output_dir)):
-        os.unlink(output_dir)
-    os.makedirs(output_dir)
-else:
-    dialog_etcros_tmp()
-    output_dir="/tmp/turtlebot-config"
-    output_mode="tmp"
-    if (os.path.isdir(output_dir)):
-        shutil.rmtree(output_dir)
-    os.makedirs(output_dir)
+    if (output_mode == "etc"):
+        status = subprocess.call("initctl stop turtlebot&",shell=True,stderr=subprocess.PIPE)
+        if (status == 0):
+            dialog_stop_roscore()
 
-if (output_mode == "etc"):
-    status = subprocess.call("initctl stop turtlebot&",shell=True,stderr=subprocess.PIPE)
-    if (status == 0):
-        dialog_stop_roscore()
+    status = subprocess.call("cp /etc/ros-fuerte/setup.* %s"%output_dir,shell=True,stderr=subprocess.PIPE)
+    status = subprocess.call("cp /etc/ros-fuerte/network.conf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
+    status = subprocess.call("cp -pr /etc/ros-fuerte/urdf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
+    readme_file = open("%s/README"%output_dir, "w")
+    print >> readme_file, "These config files were generated automatically by turtlebot-config"
+    readme_file.close()
 
-status = subprocess.call("cp /etc/ros-fuerte/setup.* %s"%output_dir,shell=True,stderr=subprocess.PIPE)
-status = subprocess.call("cp /etc/ros-fuerte/network.conf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
-status = subprocess.call("cp -pr /etc/ros-fuerte/urdf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
-readme_file = open("%s/README"%output_dir, "w")
-print >> readme_file, "These config files were generated automatically by turtlebot-config"
-readme_file.close()
+    while (get_ftdi_count() > 0):
+        dialog_unplug_all()
 
-while (get_ftdi_count() > 0):
-    dialog_unplug_all()
+    while (get_ftdi_count() != 1):
+        dialog_plug_create()
 
-while (get_ftdi_count() != 1):
-    dialog_plug_create()
+    dev = usb.core.find(find_all=True,idVendor=0x0403, idProduct=0x6001)
+    for i in range(len(dev)):
+        create_iserial = usb.util.get_string(dev[i],MAX_ISERIAL_LEN,dev[i].iSerialNumber)
 
-dev = usb.core.find(find_all=True,idVendor=0x0403, idProduct=0x6001)
-for i in range(len(dev)):
-    create_iserial = usb.util.get_string(dev[i],MAX_ISERIAL_LEN,dev[i].iSerialNumber)
+    armed = dialog_armed()
 
-armed = dialog_armed()
+    if armed:
+        while (get_ftdi_count() != 2):
+            dialog_plug_arm()
 
-if armed:
-    while (get_ftdi_count() != 2):
-        dialog_plug_arm()
+        if (armed == True):
+            dev = usb.core.find(find_all=True,idVendor=0x0403, idProduct=0x6001)
+            for i in range(len(dev)):
+                temp_iserial = usb.util.get_string(dev[i],MAX_ISERIAL_LEN,dev[i].iSerialNumber)
+                if (temp_iserial != create_iserial):
+                    arm_iserial = temp_iserial
 
-    if (armed == True):
-        dev = usb.core.find(find_all=True,idVendor=0x0403, idProduct=0x6001)
-        for i in range(len(dev)):
-            temp_iserial = usb.util.get_string(dev[i],MAX_ISERIAL_LEN,dev[i].iSerialNumber)
-            if (temp_iserial != create_iserial):
-                arm_iserial = temp_iserial
+    generate_robot_launch()
+    generate_udev_rule()
 
-generate_robot_launch()
-generate_udev_rule()
+    if (output_mode == "etc"):
+        status = subprocess.call("initctl restart udev&",shell=True,stderr=subprocess.PIPE)
+        if (status == 0 ):
+            dialog_restart_udev()
+        status = subprocess.call("rmmod ftdi_sio",shell=True,stderr=subprocess.PIPE)
+        status = subprocess.call("modprobe ftdi_sio",shell=True,stderr=subprocess.PIPE)
+        status = subprocess.call("initctl start turtlebot&",shell=True,stderr=subprocess.PIPE)
+        if (status == 0 ):
+            dialog_start_roscore()
 
-if (output_mode == "etc"):
-    status = subprocess.call("initctl restart udev&",shell=True,stderr=subprocess.PIPE)
-    if (status == 0 ):
-        dialog_restart_udev()
-    status = subprocess.call("rmmod ftdi_sio",shell=True,stderr=subprocess.PIPE)
-    status = subprocess.call("modprobe ftdi_sio",shell=True,stderr=subprocess.PIPE)
-    status = subprocess.call("initctl start turtlebot&",shell=True,stderr=subprocess.PIPE)
-    if (status == 0 ):
-        dialog_start_roscore()
+if __name__ == '__main__':
+    global script_dir
+    script_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    if len(sys.argv) == 1:
+        gui(sys.argv)
+
