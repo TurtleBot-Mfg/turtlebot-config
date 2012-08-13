@@ -67,6 +67,7 @@ def get_ftdi_count():
     return len(dev)
 
 def generate_robot_launch():
+    file = "%s/robot.launch"%output_dir
     if (os.path.isfile("%s/robot.launch"%output_dir)):
         os.unlink("%s/robot.launch"%output_dir)
     launch_file = open("%s/robot.launch"%output_dir, "w")
@@ -167,6 +168,7 @@ def dialog_plug_arm():
 
 #################
 def gui(argv):
+    global output_dir
     if (not is_root()):
         dialog_run_as_root()
         exit()
