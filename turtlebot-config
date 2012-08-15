@@ -169,6 +169,7 @@ def dialog_plug_arm():
 #################
 def gui(argv):
     global output_dir
+    global output_mode
     if (not is_root()):
         dialog_run_as_root()
         exit()
@@ -196,6 +197,7 @@ def gui(argv):
     status = subprocess.call("cp /etc/ros-fuerte/setup.* %s"%output_dir,shell=True,stderr=subprocess.PIPE)
     status = subprocess.call("cp /etc/ros-fuerte/network.conf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
     status = subprocess.call("cp -pr /etc/ros-fuerte/urdf %s"%output_dir,shell=True,stderr=subprocess.PIPE)
+    status = subprocess.call("cp -pr /etc/ros-fuerte/launch.d %s"%output_dir,shell=True,stderr=subprocess.PIPE)
     readme_file = open("%s/README"%output_dir, "w")
     print >> readme_file, "These config files were generated automatically by turtlebot-config"
     readme_file.close()
