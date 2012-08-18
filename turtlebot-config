@@ -170,6 +170,12 @@ def dialog_plug_arm():
 def gui(argv):
     global output_dir
     global output_mode
+    global create_iserial
+    global MAX_ISERIAL_LEN
+    global arm_iserial
+    global armed
+    global udev_rule
+
     if (not is_root()):
         dialog_run_as_root()
         exit()
