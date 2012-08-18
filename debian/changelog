@@ -1,3 +1,17 @@
+turtlebot-config (0.0.5~1.gbp50be82) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @50be82f3b1347f7ac79c9bc61c523d854eb23aad **
+
+  * Fixing globals
+
+ -- I Heart Engineering <code@iheartengineering.com>  Sat, 18 Aug 2012 00:18:59 -0400
+
+turtlebot-config (0.0.4) precise; urgency=low
+
+  * Support for /etc/ros-fuerte/launch.d and fixed udev regression from missing global
+
+ -- I Heart Engineering <code@iheartengineering.com>  Wed, 15 Aug 2012 08:06:03 -0400
+
 turtlebot-config (0.0.4~1.gbp8be9ba) UNRELEASED; urgency=low
 
   ** SNAPSHOT build @8be9ba739486ba0fa99ac2b83d6ff53f90830be0 **
