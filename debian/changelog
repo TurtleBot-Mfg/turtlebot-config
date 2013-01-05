@@ -1,10 +1,8 @@
-turtlebot-config (0.0.5~1.gbp50be82) UNRELEASED; urgency=low
+turtlebot-config (0.0.5) precise; urgency=low
 
-  ** SNAPSHOT build @50be82f3b1347f7ac79c9bc61c523d854eb23aad **
+  * Fixing globals and irobot create serial detection
 
-  * Fixing globals
-
- -- I Heart Engineering <code@iheartengineering.com>  Sat, 18 Aug 2012 00:18:59 -0400
+ -- I Heart Engineering <code@iheartengineering.com>  Sat, 18 Aug 2012 00:30:54 -0400
 
 turtlebot-config (0.0.4) precise; urgency=low
 
